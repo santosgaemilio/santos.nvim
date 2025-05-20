@@ -1,6 +1,7 @@
 return {
   {
     'rebelot/kanagawa.nvim',
+    priority = 1000,
     config = function()
       require('kanagawa').setup {
         compile = false, -- enable compiling the colorscheme
@@ -26,16 +27,20 @@ return {
             all = {},
           },
         },
-        overrides = function()
-          return {}
+        overrides = function(colors)
+          return {
+            BlinkCmpMenu = { bg = colors.palette.dragonBlack3 },
+            BlinkCmpLabelDetail = { bg = colors.palette.dragonBlack3 },
+            BlinkCmpMenuSelection = { bg = colors.palette.waveBlue1 },
+          }
         end,
         theme = 'dragon', -- Load "wave" theme
         background = { -- map the value of 'background' option to a theme
           dark = 'dragon', -- try "dragon" !
-          light = 'lotus',
+          light = 'dragon',
         },
       }
-      vim.cmd 'colorscheme kanagawa-dragon'
+      vim.cmd.colorscheme 'kanagawa-dragon'
     end,
   },
 }

@@ -1,0 +1,47 @@
+Simple manual-made list of this config plugins, with a short description:
+~ Kickstart.nvim plugins:
+    - tpope/vim-sleuth: Detect tabstop and shiftwidth automatically
+    - lewis6991/gitsigns.nvim: Github signs in the gutter
+    - folke/which-key.nvim: Shows keybinds (?)
+    - nvim-telescope/telescope.nvim: Fuzzy finder thingy, really good
+        - nvim-lua/plenary.nvim: Snippets of common lua functions/only works on nvim
+        - This is the most complex setup in kickstart, and it works great so I'm not touching it
+    - LSP PLUGINS:
+        - folke/lazydev.nvim: lua LSP works well for the actual config             
+        - neovim/nvim-lspconfig: Main lsp configuration
+            - Has a lot of Mason dependencies, but don't want to write them all here
+            - j-hui/fidget.nvim: Little notification for the lsp, like loading... notifs and all that jazz
+            - saghen/blink.cmp: Autocompletion, but I swear it does not work that well. I think it needs more configuration.
+            - Important keymaps
+                - grn -> rename
+                - gra -> excecute a code action (?)
+                - grr -> find references for the word under the cursor
+                - gri -> jump to implementation | For interfaces for example
+                - grd -> jump to definition
+                - grD -> goto declaration (?)
+                - g0 -> fuzzy find the symbols on the document
+                - gW -> fuzzy find the symbols on the workspace
+                - grt -> jumps to the type of the word under the cursor
+                    - This is one of those, I whish this was a real IDE thingys
+            - Even more Mason stuff
+        - stevearc/conform.nvim: Autoformat
+        - saghen/blink.cmp: Autocompletion
+            - Appears again for better configuration
+            - Sets up L3MON4D3/LuaSnip as a snippet engine apperently
+            - rafamadriz/frienfly-snippets: Snippets for lua I think
+            * REMEMBER SET KANAGAWA TO priority = 1000 *
+    - folke/todo-comments.nvim: Highlight todo, notes, warnings, etc. VERY COOL!
+    - echasnovski/mini.nvim: Collection of various small independent plugins
+        - mini.ai: some keymaps I'm not using
+        - min.surround: surround stuff, put a new keymap to autosurround 'za'
+        - mini.statusline: customizes the status line, kinda dont want to touch it, dont really read it anyway
+    - nvim-treesitter/nvim-treesitter: highlight, edit, and navigate code
+    - neo-tree: (Its actually 'outside' of kickstart, but it comes bundled) vscode like file tree navigation, very cool.
+~ Custom plugins
+    - Actual plugins:
+        - romgrk/barbar.nvim: makes vscode like tabs
+    - Themes:
+        - kanagawa.nvim: cool theme, didnt noticed it was already installed, made the lua file with custom options.
+
+
+sera

@@ -3,5 +3,11 @@
 --
 -- See the kickstart.nvim README for more information
 return {
-  -- { import = 'custom.plugins.kanagawa' },
+  -- require 'custom.plugins.kanagawa',
+  require 'custom.plugins.zenbones',
+  require 'custom.plugins.barbar',
+  require 'custom.plugins.cmake-tools',
+  require 'custom.plugins.colorizer',
+  require 'custom.plugins.dap',
+  require 'custom.plugins.yazi',
 }
