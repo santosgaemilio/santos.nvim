@@ -685,7 +685,96 @@ require('lazy').setup({
         --
         -- But for many setups, the LSP (`ts_ls`) will work just fine
         -- ts_ls = {},
-        --
+        vue_ls = {
+          on_init = function(client)
+            client.handlers['tsserver/request'] = function(_, result, context)
+              local clients = vim.lsp.get_clients { bufnr = context.bufnr, name = 'vtsls' }
+              if #clients == 0 then
+                vim.notify('Could not find `vtsls` lsp client, vue_lsp would not work with it.', vim.log.levels.ERROR)
+                return
+              end
+              local ts_client = clients[1]
+              local param = unpack(result)
+              local id, command, payload = unpack(param)
+              ts_client:exec_cmd({
+                command = 'typescript.tsserverRequest',
+                arguments = {
+                  command,
+                  payload,
+                },
+              }, { bufnr = context.bufnr }, function(_, r)
+                local response_data = { { id, r.body } }
+                client:notify('tsserver/response', response_data)
+              end)
+            end
+          end,
+        },
+        vtsls = {
+          init_options = {
+            plugins = {
+              {
+                name = '@vue/typescript-plugin',
+                location = vim.fn.stdpath 'data' .. '/mason/packages/vue-language-server/node_modules/@vue/language-server',
+                languages = { 'vue' },
+                configNamespace = 'typescript',
+              },
+            },
+            typescript = {
+              preferences = {
+                includeCompletionsForModuleExports = true,
+              },
+              tsserver = {
+                path = 'typescript/lib/tsserver.js',
+              },
+            },
+          },
+          filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
+        },
+        cssls = {
+          settings = {
+            css = {
+              validate = true,
+              lint = { unknownAtRUles = 'ignore' },
+            },
+          },
+        },
+        html = {},
+        jsonls = {},
+        eslint = {
+          settings = {
+            codeAction = {
+              disableRuleComment = {
+                enable = true,
+                location = 'separateLine',
+              },
+              showDocumentation = {
+                enable = true,
+              },
+            },
+            codeActionOnSave = {
+              enable = false,
+              mode = 'all',
+            },
+            experimental = {
+              useFlatConfig = false,
+            },
+            format = true,
+            nodePath = '',
+            onIgnoredFiles = 'off',
+            packageManager = 'npm',
+            problems = {
+              shortenToSingleLine = false,
+            },
+            quiet = false,
+            rulesCustomizations = {},
+            run = 'onType',
+            useESLintClass = false,
+            validate = 'on',
+            workingDirectory = {
+              mode = 'location',
+            },
+          },
+        },
         clangd = {
           cmd = {
             'clangd',
@@ -742,6 +831,9 @@ require('lazy').setup({
         automatic_installation = false,
         handlers = {
           function(server_name)
+            if server_name == 'vtsls' then
+              return
+            end
             local server = servers[server_name] or {}
             -- This handles overriding only values explicitly passed
             -- by the server configuration above. Useful when disabling
@@ -750,7 +842,10 @@ require('lazy').setup({
             require('lspconfig')[server_name].setup(server)
           end,
         },
-      }
+      } --NOTE: No funciona
+      -- require('lspconfig').vtsls.setup(vim.tbl_deep_extend('force', {
+      --capabilities = capabilities,
+      --}, servers.vtsls or {}))
     end,
   },
 
@@ -967,7 +1062,29 @@ require('lazy').setup({
     main = 'nvim-treesitter.configs', -- Sets main module to use for opts
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     opts = {
-      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc', 'cpp', 'cmake', 'make' },
+      ensure_installed = {
+        'bash',
+        'c',
+        'diff',
+        'html',
+        'lua',
+        'luadoc',
+        'markdown',
+        'markdown_inline',
+        'query',
+        'vim',
+        'vimdoc',
+        'cpp',
+        'cmake',
+        'make',
+        'vue',
+        'typescript',
+        'javascript',
+        'html',
+        'css',
+        'scss',
+        'json',
+      },
       -- Autoinstall languages that are not installed
       auto_install = true,
       highlight = {
