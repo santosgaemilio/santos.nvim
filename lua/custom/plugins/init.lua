@@ -17,5 +17,5 @@ return {
   require 'custom.plugins.html',
   require 'custom.plugins.another-colorizer',
   require 'custom.plugins.prettier',
-  require 'custom.plugins.tailwind-tools',
+  --require 'custom.plugins.tailwind-tools',
 }
